@@ -1,0 +1,25 @@
+Source: exaproxy
+Maintainer: Jean Baptiste Favre <jean-baptiste.favre@blablacar.com>
+Section: net
+Priority: optional
+Build-Depends: debhelper (>= 9), python (>= 2.7)
+Standards-Version: 3.9.6
+X-Python-Version: >= 2.7
+Homepage: https://github.com/Exa-Networks/exaproxy
+
+Package: exaproxy
+Architecture: all
+Pre-Depends: debconf (>= 1.5.34)
+Depends: ${misc:Depends}, ${python:Depends}, adduser
+Description: High performance non-caching proxy
+ This program is a high-performance non-caching proxy.
+ It is able to filter HTTP traffic using your favorite
+ programming language.
+ .
+ Potential use are :
+  + Non-caching HTTP/HTTPS (with CONNECT) Proxy
+      * forward, reverse or transparent proxy
+      * IPv6 and/or IPv4 support (can act as a 4to6 or 6to4 gateway)
+  + Traffic interception
+      * SQUID compatible interface
+      * ICAP like interface via local program

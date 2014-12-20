@@ -1,0 +1,9 @@
+#!/usr/bin/make -f
+
+%:
+	dh $@ --with python2
+
+override_dh_auto_install:
+	dh_auto_install -- --install-scripts=/usr/sbin
+	rm -rf $(CURDIR)/debian/exaproxy/usr/etc
+	mv $(CURDIR)/debian/exaproxy/usr/lib/systemd $(CURDIR)/debian/exaproxy/lib

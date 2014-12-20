@@ -1,0 +1,21 @@
+# Defaults for exabproxy initscript
+# sourced by /etc/init.d/exaproxy
+# installed at /etc/default/exaproxy by the maintainer scripts
+
+#
+# This is a POSIX shell fragment
+#
+
+# Additional options that are passed to the Daemon.
+DAEMON_OPTS="/etc/exaproxy/exaproxy.conf"
+
+# Change this to yes when your configuration file is ready.
+# The configuration file is, by default, /etc/exaproxy/config.
+# Use the examples stored under /usr/share/doc/exaproxy/examples
+# to build your configuration file.
+EXAPXYRUN="no"
+
+# This environement variable will tell the daemon in which folder
+# we store the configuration files.
+export ETC="/etc/exaproxy/"
+

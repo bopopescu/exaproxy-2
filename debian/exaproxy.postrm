@@ -1,0 +1,26 @@
+#!/bin/sh
+
+set -e
+
+. /usr/share/debconf/confmodule
+
+case "$1" in
+    purge)
+        # remove the configuration file itself
+        rm -f /etc/exabgp/exabgp.env
+
+        # and finally clear it out from the ucf database
+        if which ucf >/dev/null; then
+            ucf --purge /etc/exabgp/exabgp.env
+        fi    
+        if which ucfr >/dev/null; then
+            ucfr --purge exabgp /etc/exabgp/exabgp.env
+        fi   
+        ;;
+esac
+
+#DEBHELPER#
+
+db_purge
+
+exit 0

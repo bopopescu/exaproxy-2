@@ -1,0 +1,18 @@
+This work was packaged for Debian by Jean Baptiste Favre <jean-baptiste.favre@blablacar.com> on
+Thu, 21 Apr 2011 19:35:15 +0000
+
+It was downloaded from: https://github.com/Exa-Networks/exaproxy/releases
+
+Upstream Authors:
+    Thomas Mangin <thomas.mangin@exa-networks.co.uk>
+
+Copyright:
+    Copyright (c) 2011-2013, Exa Networks Limited
+    Copyright (c) 2011-2013, Thomas Mangin
+    Copyright (c) 2011-2013, David Farrar
+
+License:
+    New BSD License
+
+The Debian packaging is:
+    Copyright (C) 2014-2015 Jean Baptiste Favre <jean-baptiste.favre@blablacar.com>

@@ -1,0 +1,3 @@
+version=3
+opts=filenamemangle=s/.+\/v?(\d\S*)\.tar\.gz/exaproxy-$1\.tar\.gz/ \
+  https://github.com/Exa-Networks/exaproxy/tags .*/v?(\d\S*)\.tar\.gz

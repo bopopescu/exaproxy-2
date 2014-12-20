@@ -1,0 +1,58 @@
+#!/bin/sh
+
+set -e
+
+. /usr/share/debconf/confmodule
+db_version 2.0
+
+#CONFIGFILE="/etc/exaproxy/exaproxy.env"
+#TMPCONF="/etc/exaproxy/exaproxy.env.dpkg-tmp"
+#
+#gen_env_config() {
+#    echo "$1"
+#    trap 'rm -f $TMPCONF' TERM INT EXIT QUIT
+#    exabgp --fi >> "$TMPCONF" 2>/dev/null
+#    sed -i "s#nobody#exaproxy#" "$TMPCONF"
+#    ucf --debconf-ok $TMPCONF $CONFIGFILE
+#    rm -f $TMPCONF
+#}
+
+restore_user_settings() {
+    if [ -f /etc/default/exaproxy.dpkg-old ] ; then
+	. /etc/default/exaproxy.dpkg-old
+	sed -i "s#EXABPXYRUN=\"no#EXAPXYRUN=\"$EXAPXYRUN#" /etc/default/exaproxy
+    	sed -i "s#ETC=\"/etc/exaproxy/#ETC=\"$ETC#" /etc/default/exaproxy
+    	sed -i "s#DAEMON_OPTS=\"/etc/exaproxy/exaproxy.conf#DAEMON_OPTS=\"$DAEMON_OPTS#" /etc/default/exaproxy
+    elif [ -f /etc/default/exaproxy.dpkg-dist ] ; then
+	. /etc/default/exaproxy
+	sed -i "s#EXAPXYRUN=\"no#EXAPXYRUN=\"$EXAPXYRUN#" /etc/default/exaproxy.dpkg-dist
+    	sed -i "s#ETC=\"/etc/exaproxy/#ETC=\"$ETC#" /etc/default/exaproxy.dpkg-dist
+    	sed -i "s#DAEMON_OPTS=\"/etc/exaproxy/exaproxy.conf#DAEMON_OPTS=\"$DAEMON_OPTS#" /etc/default/exaproxy.dpkg-dist
+    fi
+}
+
+case "$1" in
+configure)
+    adduser --quiet --system --group --disabled-login --home /var/run/exaproxy exaproxy
+    # The script will be started through the DEBHELPER script called hereunder.
+    if [ ! -z "$2" ] ; then
+	if  dpkg --compare-versions "$2" lt 3.0.0 ; then
+		# Upgrade from an older version
+		restore_user_settings
+    		gen_env_config "ExaProxy: Migrating your old configuration data to the new file format."
+		if [ -f /etc/default/exaproxy.dpkg-dist ] ; then mv /etc/default/exaproxy.dpkg-dist /etc/default/exaproxy ; fi
+	fi
+    	if [ -e /var/run/exaproxy/exaproxy.pid ]; then invoke-rc.d exaproxy stop ; fi
+    #else
+#	# First package installation
+#    	gen_env_config "ExaProxy: Generating the default configuration for environment variables (/etc/exabgp/exabgp.env)."
+    fi
+    ;;
+esac
+
+#DEBHELPER#
+
+# do this to avoid a <defunct> postinst (closing all FDs).
+db_stop
+
+exit 0
